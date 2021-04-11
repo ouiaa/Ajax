@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetch发送AJAX请求</title>
+</head>
+
+<body>
+    <button>发送请求</button>
+    <script>
+        let btn = document.querySelector('button')
+        btn.addEventListener('click', function () {
+            fetch('http://127.0.0.1:8000/fetch-server', {
+                // 请求方法
+                method: 'POST',
+                // 请求头
+                headers: {
+                    name: 'auue'
+                },
+                // 请求体
+                body: 'username=admin&password=admin'
+            }).then(response => {
+                // console.log(response);
+                // 获取响应体,使用里面的text方法,然后输出
+                // return response.text()
+                // 如果服务端返回结果是json数据类型，使用下面方法解析为js对象
+                return response.json()
+            }).then(response => {
+                console.log(response);
+            })
+        })
+    </script>
+</body>
+
+</html>

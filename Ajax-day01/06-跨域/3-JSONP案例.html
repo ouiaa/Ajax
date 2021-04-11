@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONP案例</title>
+</head>
+
+<body>
+    用户名：<input type="text">
+    <p></p>
+    <script>
+        let ipt = document.querySelector('input')
+        let p = document.querySelector('p')
+        // 声明handle函数
+        function handle(data) {
+            // 边框变红色，出现提示语
+            ipt.style.border = 'solid 1px red'
+            p.innerHTML = data.msg
+        }
+        // 失去焦点触发事件
+        ipt.onblur = function () {
+            // 获取用户的输入值
+            let username = this.value
+            // 向服务端发送请求 检测用户名是否存在
+            // 1.创建script标签
+            let script = document.createElement('script')
+            // 2.设置标签的src属性
+            script.src = 'http://127.0.0.1:8000/check-username'
+            // 3.将script放入文件内
+            document.body.appendChild(script)
+        }
+    </script>
+</body>
+
+</html>

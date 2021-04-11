@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX请求超时与网络异常处理</title>
+    <style>
+        div {
+            width: 200px;
+            height: 100px;
+            border: 1px solid pink;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 要求：点击按钮，向服务器发送请求，2s后未获得响应结果则提示“请求超时” -->
+    <button>发送请求</button>
+    <div></div>
+    <script>
+        let div = document.querySelector('div')
+        let btn = document.querySelector('button')
+        btn.onclick = function () {
+            // AJAX请求的基本操作
+            // 1.创建对象
+            let xhr = new XMLHttpRequest()
+            // 超时设置 2s设置
+            xhr.timeout = 2000
+            // 超时回调
+            xhr.ontimeout = function () {
+                alert('网络异常，请稍后重试')
+            }
+            // 网络异常回调
+            xhr.onerror = function () {
+                alert('你的网络似乎出现了一些问题！')
+            }
+            // 2.初始化 设置请求方法和url
+            xhr.open('GET', 'http://127.0.0.1:8000/delay')
+            // 3.发送
+            xhr.send()
+            // 4.事件绑定 处理服务端返回的结果
+            // onreadystatechange事件解释：
+            // on 当...时 
+            // readystate 是xhr对象中的属性，表示状态（共5个）： 0(表示未初始化，也是默认值) 1(表示open()调用完毕) 2(表示send()调用完毕) 3(表示服务端返回部分结果) 4(表示服务端返回所有结果)
+            // change 改变
+            xhr.onreadystatechange = function () {
+                // 服务端返回所有结果时才进行处理
+                if (xhr.readyState === 4) {
+                    // 再判断响应状态码，成功才处理 2xx都算成功
+                    if (xhr.status >= 200 & xhr.status < 300) {
+                        div.innerHTML = xhr.response
+                    }
+                }
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
