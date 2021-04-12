@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 app.get('/home', (request, response) => {
     // 响应一个页面 绝对路径
-    response.sendFile(__dirname + '/index.html')
+    response.sendFile(__dirname + '/1-同源策略.html')
 })
 app.get('/data', (request, response) => {
     response.send('用户数据')

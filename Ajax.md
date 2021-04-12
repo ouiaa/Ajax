@@ -255,6 +255,8 @@ F12后查看请求头
 
 <u>响应请求行的第二段内容（即url）的路径是/server则进行回调函数</u>
 
+服务端
+
 ```js
 // 3.创建路由规则
 // request是对请求报文的封装
@@ -363,7 +365,7 @@ xhr.send('a=100&b=20&c=32') //更建议使用这种格式
 
 3：表示服务端返回部分结果，请求处理中
 
-4：表示服务端返回所有结果，请求已完成
+<u>4：表示服务端返回所有结果，请求已完成</u>
 
 3.**`status`属性**：200: "OK" 404: 未找到页面 等	<u>2xx都算成功</u>
 
@@ -612,7 +614,7 @@ window.onkeydown = function () {
 
 nodemon是一种工具，可以自动检测到目录中的文件更改时通过重新启动应用程序来调试基于node.js的应用程序。
 
-安装方法：
+**安装方法：**
 
 在VS终端输入`npm install -g nodemon`
 
@@ -703,11 +705,11 @@ xhr.timeout = 2000
 
 ![image-20210411101838630](C:\Users\Daii\AppData\Roaming\Typora\typora-user-images\image-20210411101838630.png)
 
-一般不会使用alert进行提示，而是用一个遮罩层或其他进行更友好的提示。
+一般不会使用alert直接进行提示，而是用一个遮罩层或其他进行更友好的提示。
 
 ## 1.16AJAX取消请求
 
-使用XMLHttpResquest对象的`abort()`方法取消请求。
+使用XMLHttpResquest对象的**`abort()`方法取消请求**。
 
 ```js
 let btn = document.querySelectorAll('button')
@@ -735,7 +737,7 @@ let btn = document.querySelectorAll('button')
 
 **1.仍需要将xhr对象定义为全局变量，用来取消前一次的请求（尚未返回服务端所有结果的请求）**
 
-2.**注意修改标识变量的两个时机**，一个是正在发送请求时修改，一个是请求完毕即服务端返回所有结果的时候。
+2.**注意修改标识变量的两个时机**，一个是正在发送请求时修改，一个是发送请求完毕即服务端返回所有结果的时候。
 
 ```js
 let btn = document.querySelector('button')
@@ -843,7 +845,7 @@ post请求和get请求格式类似
 
 ![image-20210411141907494](C:\Users\Daii\AppData\Roaming\Typora\typora-user-images\image-20210411141907494.png)
 
-注意参数放置的位置，如下图
+**注意参数放置的位置**，如下图
 
 ![image-20210411141941783](C:\Users\Daii\AppData\Roaming\Typora\typora-user-images\image-20210411141941783.png)
 
@@ -875,7 +877,7 @@ $.ajax(url,[settings]) Object
                 data: { a: 100, b: 20 },
                 // 请求类型
                 type: 'GET',
-                // 响应体结果
+                // 响应体结果类型
                 dataType: 'json',
                 // 成功的回调
                 success: function (data) {
@@ -1012,7 +1014,7 @@ axios.post('/user', {
                     id: 200,
                     vip: 20
                 },
-                // 请求头参数
+                // 请求头信息
                 headers: {
                     height: 170,
                     weight: 55
@@ -1142,7 +1144,7 @@ let btn = document.querySelector('button')
 
 ![image-20210411195151486](C:\Users\Daii\AppData\Roaming\Typora\typora-user-images\image-20210411195151486.png)
 
-此时无法看到响应体的结果，使用里面的text()获取输出`response.text()`
+此时无法看到响应体的结果，使用里面的**text()方法**获取输出`response.text()`
 
 ![image-20210411195231778](C:\Users\Daii\AppData\Roaming\Typora\typora-user-images\image-20210411195231778.png)
 
@@ -1194,7 +1196,7 @@ const express = require('express')
 const app = express()
 app.get('/home', (request, response) => {
     // 响应一个页面 绝对路径
-    response.sendFile(__dirname + '/index.html')
+    response.sendFile(__dirname + '/1-同源策略.html')
 })
 app.get('/data', (request, response) => {
     response.send('用户数据')
@@ -1215,10 +1217,10 @@ app.listen(9000, () => {
 先安装下`live server`插件
 
 ```
+解决跨域：
 方案1JSONP
 
 方案2CORS
-
 ```
 
 ### 5.2.1 JSONP
@@ -1231,7 +1233,7 @@ JSONP(JSON with Padding),是一个非官方的跨域解决方案，纯粹凭借�
 
 在网页有一些标签天生具有跨域能力，比如: img link iframe script,（注意他们都有src）
 
-JSONP就是利用script标签的跨域能力来发送请求的。
+JSONP就是<u>利用script标签的跨域能力来发送请求</u>的。
 
 **3) JSONP的使用**
 
@@ -1244,8 +1246,16 @@ var script = document.createElement("script");
 2.设置script的src,设置回调函数
 
 ```js
-script.src = http://localhost:3000/testAJAX?callback=abc";
+script.src = "http://localhost:3000/testAJAX?callback=abc";
 ```
+
+3.将script放入文件内
+
+```js
+document.body.appendChild(script)
+```
+
+
 
 **4) JSONP的实现原理**
 
@@ -1277,7 +1287,7 @@ script.src = http://localhost:3000/testAJAX?callback=abc";
 
 ![image-20210411205907948](C:\Users\Daii\AppData\Roaming\Typora\typora-user-images\image-20210411205907948.png)
 
-在html内定义函数，js文件中调用函数，可以成功调用函数
+在<u>html内定义函数，js文件中调用函数，可以成功调用函数</u>
 
 html内
 
@@ -1301,7 +1311,7 @@ let data = {
 handle(data)
 ```
 
-原理：`script`标签将服务端返回的响应结果（如下图）进行解析处理。因此需要将函数放在引用的script前面，否则解析出来会因handle函数未定义而报错。
+**原理**：`script`标签将服务端返回的响应结果（如下图）进行解析处理。因此需要将函数放在引用的script前面，否则解析出来会因handle函数未定义而报错。
 
 ![image-20210411210613808](C:\Users\Daii\AppData\Roaming\Typora\typora-user-images\image-20210411210613808.png)
 
@@ -1334,7 +1344,7 @@ handle(data)
 
 这就需要解决跨域了，如下
 
-**返回结果形式是参数调用（使用模板字符串调用函数），参数就是我们想要给服务端返回的结果数据**，注意函数需要提前声明。
+**返回结果形式是参数调用（使用模板字符串调用函数），参数就是我们想要给服务端返回的结果数据**，注意<u>函数需要提前声明。</u>
 
 ```js
 // 8）/jsonp-server页面 jsonp服务
@@ -1360,7 +1370,7 @@ app.all('/jsonp-server', (request, response) => {
 
 **注意：**
 
-1.同样通过调用handle回调函数来进行css样式设置，对返回结果数据进行处理
+1.同样通过调用<u>handle回调函数</u>来进行css样式设置，<u>对返回结果数据进行处理</u>
 
 2.**向服务端发送请求的三个步骤：**
 
@@ -1413,7 +1423,7 @@ app.all('/check-username', (request, response) => {
 
 ## 5.4jquery发送jsonp请求
 
-语法格式与示例：
+**语法格式**与示例：
 
 **注意url后面的`?callback=?`，callback=?是固定格式**
 
@@ -1460,11 +1470,11 @@ let data = {
 
 1. **CORS是什么？**
 
-   CORS (Cross-Origin Resource Sharing), 跨域资源共享。CORS 是官方的跨域解决方案，它的特点是不需要在客户端做任何特殊的操作，完全<u>在服务器中进行处理</u>，支持 get 和 post 等请求。跨域资源共享标准新增了<u>一组 HTTP 首部字段（响应头）</u>，允许服务器声明哪些源站通过浏览器有权限访问哪些资源
+   CORS (Cross-Origin Resource Sharing), 跨域资源共享。CORS 是官方的跨域解决方案，它的特点是不需要在客户端做任何特殊的操作，完全**在服务器中进行处理**，支持 get 和 post 等请求。跨域资源共享标准新增了<u>一组 HTTP 首部字段（响应头）</u>，允许服务器声明哪些源站通过浏览器有权限访问哪些资源
 
 2. **CORS怎么工作的？**
 
-   CORS 是通过设置一个响应头来告诉浏览器，该请求允许跨域，浏览器收到该响应以后就会对响应放行。
+   CORS 是通过**设置一个响应头**来告诉浏览器，该**请求允许跨域**，浏览器收到该响应以后就会对响应放行。
 
 3. **CORS 的使用**
 
